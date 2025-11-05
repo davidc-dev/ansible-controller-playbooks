@@ -1,0 +1,20 @@
+---
+- name: Export inventory source from AAP
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+  - name: Export Ansible Inventory source
+    ansible.controller.export:
+      inventory_sources: ['gci']
+
+  - name: Build controller launch jobs
+    ansible.builtin.set_fact:
+      controller_launch_jobs: "{{ (controller_launch_jobs | d([])) + [launch_jobs | combine({'extra_vars': {'demo': item}})] }}"
+    loop: "{{ demos }}"
+
+  - name: Default Components
+    ansible.builtin.include_role:
+      name: "infra.controller_configuration.job_launch"
+    vars:
+      controller_dependency_check: false  # noqa: var-naming[no-role-prefix]
