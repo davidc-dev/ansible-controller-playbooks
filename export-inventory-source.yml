@@ -1,9 +1,18 @@
 ---
-- name: Export inventory source from AAP
+- name: Export inventory source from AAP (AWX/Tower)
   hosts: localhost
   gather_facts: false
+  vars:
+    validate_certs: false
+
 
   tasks:
-  - name: Export Ansible Inventory source
-    export:
-      inventory_sources: ['gci']
+    - name: Get inventory source info
+      ansible.controller.inventory_source_info:
+        controller_host: "{{ AAP_HOSTNAME }}"
+        controller_username: "{{ AAP_USERNAME }}"
+        controller_password: "{{ AAP_PASSWORD }}"
+        name: "gci"
+        validate_certs: "{{ validate_certs }}"
+      loop: "{{ inventory_sources }}"
+      register: inventory_source_info
