@@ -12,5 +12,5 @@
         controller_host: "{{ aap_hostname }}"
         controller_username: "{{ aap_username }}"
         controller_password: "{{ aap_password }}"
-        inventory_sources: ["gci"]
+        inventory_source_name: "gci"
         validate_certs: "{{ validate_certs }}"
