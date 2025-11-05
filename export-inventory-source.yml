@@ -8,11 +8,9 @@
 
   tasks:
     - name: Get inventory source info
-      ansible.controller.inventory_source_info:
+      ansible.controller.export:
         controller_host: "{{ AAP_HOSTNAME }}"
         controller_username: "{{ AAP_USERNAME }}"
         controller_password: "{{ AAP_PASSWORD }}"
-        name: "gci"
+        inventory_sources: ["gci"]
         validate_certs: "{{ validate_certs }}"
-      loop: "{{ inventory_sources }}"
-      register: inventory_source_info
